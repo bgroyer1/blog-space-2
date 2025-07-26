@@ -17,7 +17,15 @@
     if (!res.ok) throw Error(`Request failed: ${res.statusText}`)
     const data = await res.json();
     const postsArr = data.slice(0, 5)
-    console.log(postsArr)
+    let html = ''
+    for (let post of postsArr) {
+      html += `
+        <h3 class='post-h3'>${post.title}</h3>
+        <p class='post-text'>${post.body}</p>
+        <hr />
+      `
+      document.querySelector("#blog-div").innerHTML = html
+    }
   } catch(err) {
     console.error(err)
   }
