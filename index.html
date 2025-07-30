@@ -3,20 +3,35 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>BlogSpace</title>
     <link rel="stylesheet" href="./css/styles.css" />
     <script src="./js/script.js" type="module" defer></script>
   </head>
   <body>
-    <nav>
-      <span id="logo">BlogSpace</span>
-      <ul class="nav-list">
-        <li class="nav-li"><a class="nav-a" href="#">Home</a></li>
-        <li class="nav-li"><a class="nav-a" href="#">About</a></li>
-        <li class="nav-li"><a class="nav-a" href="#">Shop</a></li>
-        <li class="nav-li"><a class="nav-a" href="#">Contact</a></li>
-      </ul>
-    </nav>
-    <div id="blog-div"></div>
+    <header>
+      <div id='header-div' class="container">
+        <div class="flex">
+          <span id="logo">BlogSpace</span>
+          <div>
+            <i class="nav-hamburger fa fa-bars"></i>
+
+          </div>
+        </div>
+        <nav class="hidden">
+          <ul class="nav-list">
+            <li class="nav-li"><a class="nav-a" href="#">Home</a></li>
+            <li class="nav-li"><a class="nav-a" href="#">About</a></li>
+            <li class="nav-li"><a class="nav-a" href="#">Shop</a></li>
+            <li class="nav-li"><a class="nav-a" href="#">Contact</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <div class="container">
+        <div id="blog-div"></div>
+      </div>
+    </main>
   </body>
 </html>

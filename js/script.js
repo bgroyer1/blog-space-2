@@ -1,34 +1,21 @@
-/**
- Challenge:
- 
- GET a list of blog posts from the JSON Placeholder API.
- 
- BaseURL: https://apis.scrimba.com/jsonplaceholder/
- Endpoint: /posts
- 
- Since there's so many posts, let's limit the array to just 5 items.
- You can use the `.slice()` array method to just grab the first 5 objects
- from the data array that comes back from the API
- */
-
- async function fetchBlogPosts() {
-  try {
-    const res = await fetch('https://apis.scrimba.com/jsonplaceholder/posts', {method: 'GET'})
-    if (!res.ok) throw Error(`Request failed: ${res.statusText}`)
-    const data = await res.json();
-    const postsArr = data.slice(0, 5)
-    let html = ''
-    for (let post of postsArr) {
-      html += `
-        <h3 class='post-h3'>${post.title}</h3>
-        <p class='post-text'>${post.body}</p>
-        <hr />
-      `
-      document.querySelector("#blog-div").innerHTML = html
-    }
-  } catch(err) {
-    console.error(err)
+async function fetchBlogPosts() {
+  const res = await fetch("https://apis.scrimba.com/jsonplaceholder/posts");
+  if (!res.ok) {
+    throw Error(`Response error: ${res.status} ${res.statusText}`);
   }
- }
+  const data = await res.json();
+  const postsArr = data.slice(0, 5);
+  const postsHTML = postsArr.reduce((acc, post) => {
+    const { title, body } = post;
+    return (
+      acc +
+      `<article class='post-div'>
+        <h3 class='post-title'>${title}</h3>
+        <p class='post-body'>${body}</p>
+      </article>`
+    );
+  }, "");
+  document.querySelector("#blog-div").innerHTML = postsHTML;
+}
 
-fetchBlogPosts()
+fetchBlogPosts();
