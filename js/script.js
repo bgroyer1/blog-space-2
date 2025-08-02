@@ -37,6 +37,16 @@ function createPostObj() {
   };
 }
 
+function createOptions(obj) {
+  return {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(obj),
+  };
+}
+
 //async functions
 
 async function fetchPosts() {
@@ -54,13 +64,7 @@ async function insertNewPost() {
   const postObj = createPostObj();
   if (!postObj) return;
 
-  const options = {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(postObj),
-  };
+  const options = createOptions(postObj);
 
   try {
     const res = await fetch(BLOG_API, options);
@@ -69,10 +73,10 @@ async function insertNewPost() {
     }
     const data = await res.json();
     renderHTML([data]);
+    form.reset();
   } catch (err) {
     console.error(err);
   }
-  form.reset();
 }
 
 // event listeners
@@ -84,4 +88,3 @@ form.addEventListener("submit", async (e) => {
 
 // function calls
 
-fetchPosts();
