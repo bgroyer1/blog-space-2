@@ -1,79 +1,86 @@
 // variables
 
-let postsArray = []
-const form = document.querySelector('form')
-const blogList = document.querySelector('#blog-list')
-const BLOG_API = 'https://apis.scrimba.com/jsonplaceholder/posts'
-
+let postsArray = [];
+const form = document.querySelector("form");
+const blogList = document.querySelector("#blog-list");
+const BLOG_API = "https://apis.scrimba.com/jsonplaceholder/posts";
 
 // functions
 
 function renderHTML(arr) {
-    const postHTML = arr.reduce((acc, post) => {
-        const { title, body } = post
-        return acc + `<article>
+  const postHTML = arr.reduce((acc, post) => {
+    const { title, body } = post;
+    return (
+      acc +
+      `<article>
             <h3>${title}</h3>
             <p>${body}</p>
         </article>
         <hr />`
-    }, '')
-    blogList.insertAdjacentHTML('afterbegin', postHTML)
+    );
+  }, "");
+  blogList.insertAdjacentHTML("afterbegin", postHTML);
+}
+
+function createPostObj() {
+  const postTitle = document.querySelector("#post-title").value.trim();
+  const postBody = document.querySelector("#post-body").value.trim();
+
+  if (!postTitle || !postBody) {
+    alert("Both fields must be filled");
+    return;
+  }
+
+  return {
+    title: postTitle,
+    body: postBody,
+  };
 }
 
 //async functions
 
 async function fetchPosts() {
-    const res = await fetch(BLOG_API)
-    if (!res.ok) {
-        throw Error(`Response failed: ${res.status}`)
-    }
+  const res = await fetch(BLOG_API);
+  if (!res.ok) {
+    throw Error(`Response failed: ${res.status}`);
+  }
 
-    const data = await res.json();
-    postsArray = data.slice(0, 5)
-    renderHTML(postsArray)
+  const data = await res.json();
+  postsArray = data.slice(0, 5);
+  renderHTML(postsArray);
 }
 
 async function insertNewPost() {
-    const postTitle = document.querySelector('#post-title').value.trim();
-    const postBody = document.querySelector('#post-body').value.trim();
-    
-    if (!postTitle || !postBody) {
-        alert('Both fields must be filled')
-        return
-    }
+  const postObj = createPostObj();
+  if (!postObj) return;
 
-    const data = {
-        title: postTitle,
-        body: postBody
-    }
-    
-    const options = {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data)
-    }
+  const options = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(postObj),
+  };
 
-    try {
-        const res = await fetch(BLOG_API, options)
-        if (!res.ok) {
-            throw Error(`Response failed: ${res.status}`)
-        }
-        const data = await res.json();
-        renderHTML([data])
-    } catch(err) {
-        console.error(err)
+  try {
+    const res = await fetch(BLOG_API, options);
+    if (!res.ok) {
+      throw Error(`Response failed: ${res.status}`);
     }
-    form.reset();
+    const data = await res.json();
+    renderHTML([data]);
+  } catch (err) {
+    console.error(err);
+  }
+  form.reset();
 }
 
 // event listeners
 
-form.addEventListener('submit', async(e) =>  {
-    e.preventDefault();
-    insertNewPost();
-})
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  insertNewPost();
+});
 
 // function calls
 
